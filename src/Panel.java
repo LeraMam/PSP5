@@ -56,9 +56,7 @@ public class Panel extends JFrame {
         add(textSearchLabel);
         add(textSearch);
         add(JListBook);
-        add(new JScrollPane(JListBook));
         add(JListMagazine);
-        add(new JScrollPane(JListMagazine));
         add(checkboxBook);
         add(checkboxMagazine);
         add(button);
