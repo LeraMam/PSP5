@@ -6,23 +6,25 @@ import java.util.List;
 
 public class Panel extends JFrame {
     JList<String> JListBook, JListMagazine;
-    Label textSearchLabel;
+    JLabel textSearchLabel;
     JTextField textSearch;
     List<String> bookArrayList = new ArrayList<String>();
     List<String> magazineArrayList = new ArrayList<String>();
     CheckboxGroup checkboxGroup;
     Checkbox checkboxBook, checkboxMagazine;
-    JButton button;
+    JButton button, addButton, deleteButton;
     Panel() {
         super("Пробное окно");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
-        textSearchLabel = new Label("Введите поисковый текст");
+        setSize(500, 500);
+        textSearchLabel = new JLabel("Введите поисковый текст");
         textSearch = new JTextField();
         checkboxGroup = new CheckboxGroup();
         checkboxBook = new Checkbox("Книги", checkboxGroup, false);
         checkboxMagazine = new Checkbox("Журналы", checkboxGroup, false);
         button = new JButton("Найти");
+        addButton = new JButton("Добавить элемент списка");
+        deleteButton = new JButton("Удалить элемент списка");
 
         bookArrayList.add("Преступление и наказание");
         bookArrayList.add("Великий Гэтсби");
@@ -53,6 +55,8 @@ public class Panel extends JFrame {
         textSearchLabel.setBounds(130, 150, 200, 25);
         textSearch.setBounds(130, 180, 200, 50);
         button.setBounds(180, 250, 70, 25);
+        addButton.setBounds(120, 320, 200, 25);
+        deleteButton.setBounds(120, 360, 200, 25);
         add(textSearchLabel);
         add(textSearch);
         add(JListBook);
@@ -60,7 +64,11 @@ public class Panel extends JFrame {
         add(checkboxBook);
         add(checkboxMagazine);
         add(button);
+        add(addButton);
+        add(deleteButton);
         button.addActionListener(click);
+        addButton.addActionListener(listAdd);
+        deleteButton.addActionListener(listDelete);
     }
     ActionListener click = new ActionListener() {
         @Override
@@ -77,8 +85,32 @@ public class Panel extends JFrame {
                 if (findList.isEmpty()) { textSearch.setText("Ничего не найдено!"); }
                 else User.addChoiceInterval(findList, magazineArrayList, JListMagazine);
             } else {
-                System.out.println("Ничего не выбрано!");
+                textSearch.setText("Ничего не выбрано!");
             }
+        }
+    };
+    ActionListener listAdd = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            String value = textSearch.getText();
+            if(value.isEmpty())  textSearch.setText("Нужна строка!");
+            if (checkboxBook.getState()) {
+                User.addListElement(bookArrayList, JListBook, value);
+            } else if (checkboxMagazine.getState()) {
+                User.addListElement(magazineArrayList, JListMagazine, value);
+            } else textSearch.setText("Ничего не выбрано!");
+        }
+    };
+    ActionListener listDelete = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            String value = textSearch.getText();
+            if(value.isEmpty())  textSearch.setText("Нужно число!");
+            if (checkboxBook.getState()) {
+                User.deleteListElement(bookArrayList, JListBook, value);
+            } else if (checkboxMagazine.getState()) {
+                User.deleteListElement(magazineArrayList, JListMagazine, value);
+            } else textSearch.setText("Ничего не выбрано!");
         }
     };
 }

@@ -16,6 +16,7 @@ public class User
     public static void main(String[] args) {
         Panel testPanel = new Panel();
         testPanel.setVisible(true);
+
     }
     public static List<String> searchText(List<String> gettedList, JTextField textSearch) {
         String keyword = textSearch.getText();
@@ -34,5 +35,17 @@ public class User
                 JListGetted.addSelectionInterval(i, i);
             }
         }
+    }
+    public static void addListElement(List<String> gettedList, JList<String> JListGetted, String element) {
+        gettedList.add(element);
+        DefaultListModel<String> model = (DefaultListModel<String>) JListGetted.getModel();
+        model.addElement(element);
+    }
+    public static void deleteListElement(List<String> gettedList, JList<String> JListGetted, String  element) {
+        int index = Integer.parseInt(element);
+        index--;
+        gettedList.remove(index);
+        DefaultListModel<String> model = (DefaultListModel<String>) JListGetted.getModel();
+        model.remove(index);
     }
 }
